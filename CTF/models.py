@@ -1,5 +1,7 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User, PermissionsMixin, AbstractUser
 
 
 # Create your models here.
@@ -14,22 +16,30 @@ class Game(models.Model):
 
 
 class Team(models.Model):
-    teamID = models.PositiveIntegerField(primary_key=True)
+    teamID = models.AutoField(primary_key=True)
     teamSecretKey = models.CharField(max_length=50, unique=True)
     teamName = models.CharField(max_length=50, unique=True)
     teamScore = models.IntegerField(default=0)
 
 
-class User(models.Model):
-    userID = models.PositiveIntegerField(primary_key=True)
-    role = models.IntegerField(default=0)
-    teamID = models.ForeignKey(Team, on_delete=models.CASCADE)
-    userName = models.CharField(max_length=50, unique=True)
+class User(AbstractUser, AbstractBaseUser):
+    email = models.EmailField(('email address'), unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    # teamID = models.ForeignKey(Team, on_delete=models.CASCADE)
+    username = models.CharField(max_length=50)
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=30)
     userScore = models.IntegerField(default=0)
-    timeCreate = models.DateTimeField(default=datetime.now(), blank=True)
-    timeChange = models.DateTimeField(blank=True)
+    date_joined = models.DateTimeField(default=datetime.now())
+    # def save(self, *args, **kwargs):
+    #     user  = super(User, self)
+    #     return  user
+
+    def __str__(self):
+        return self.email
 
 class Alert(models.Model):
     id = models.PositiveIntegerField(primary_key=True)

@@ -1,12 +1,78 @@
 <!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap5 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 <html>
 <head>
-    {% block loadbt %}
-    {% endblock loadbt %}
+    <meta charset="UTF-8">
+
 </head>
 <body>
-{% block navbar %}
-{% endblock navbar %}
+<div class="container pos-f-t">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">CSG</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/games">Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scoreboard">Scorebroad</a>
+                    </li>
+                </ul>
+
+
+                <ul class="d-flex navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link " aria-current="page" href="/notification">Notification</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/profile">Profile</a>
+                    </li>
+                </ul>
+
+                {% if user.is_authenticated %}
+                    <ul class="d-flex navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link " href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                    {% if user.is_superuser %}
+                    {% endif %}
+                {% else %}
+                    <ul class="d-flex navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/login">Login</a>
+                        </li>
+                    </ul>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container pos-f-t">
+{% block check %}
+{% endblock check %}
+{% block main %}
+{% endblock main %}
+{% block content %}
+{% endblock content %}
+</div>
 </body>
 <html>

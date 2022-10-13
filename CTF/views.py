@@ -1,10 +1,14 @@
-from django.shortcuts import render
-
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
 from django.http import HttpResponse
+from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render
+from CTF.forms import *
 import datetime
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
 
 
 def home(request):
@@ -19,22 +23,51 @@ def games(request):
     })
 
 
-def login(request):
-    return render(request, 'html/login.html', {
-        'foo': 'bar',
-    })
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("ctf:home")
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request=request, template_name="html/login.html", context={"login_form": form})
 
-def logout(request):
-    try:
-        del request.session['user_id']
-    except KeyError:
-        pass
-    return HttpResponse("You're logged out.")
 
-def register(request):
-    return render(request, 'html/register.html', {
-        'foo': 'bar',
-    })
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("ctf:home")
+
+
+def register_request(request):
+    if request.method == 'POST':
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            username=(form.cleaned_data.get('username'))
+            email=(form.cleaned_data.get('email'))
+            password=(form.cleaned_data.get('password'))
+            password2 = (form.cleaned_data.get('password2'))
+
+            if User.objects.filter(email=email).first() is None:
+                user = User(email=email, username=username)
+                user.set_password(password)
+                user.save()
+                messages.info(request, u'The account "%s" has been successfully registered.' % email)
+                return redirect("ctf:login")
+            else:
+                messages.error(request, u'Email "%s" is already in use.' % email)
+    else:
+        form = NewUserForm()
+    return render(request=request, template_name="html/register.html", context={"register_form": form})
 
 
 def scoreboard(request):
@@ -49,13 +82,16 @@ def notification(request):
     })
 
 
-def admin(request):
-    return render(request, 'html/admin.html', {
+def profile(request):
+    return render(request, 'html/user.html', {
         'foo': 'bar',
     })
 
 
-
+def admin(request):
+    return render(request, 'html/admin.html', {
+        'foo': 'bar',
+    })
 
 
 def handler404(request, *args, **argv):
