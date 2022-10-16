@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 urlpatterns = [
     path('',include('CTF.urls')),
+    path('api/',include('API.urls')),
     path('admin/', admin.site.urls),
 ]
 handler404 = 'CTF.views.handler404'

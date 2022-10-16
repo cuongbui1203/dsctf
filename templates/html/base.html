@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-{# Load the tag library #}
-{% load bootstrap5 %}
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
 <html>
 <head>
+    {# Load the tag library #}
+    {% load bootstrap5 %}
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+
     <meta charset="UTF-8">
 </head>
 <body style="
@@ -78,4 +79,16 @@ height: 100vh;
     {% endblock content %}
 </div>
 </body>
+<script>
+    //auto remove info message
+    var info_messages = document.getElementsByClassName('alert-info');
+    setTimeout(function () {
+        for (var i = 0; i < info_messages.length; i++) {
+            // Set display attribute as !important, neccessary when using bootstrap
+            info_messages[i].setAttribute('style', 'display:none !important');
+        }
+    }, 3000);
+    {% block script %}
+    {% endblock script %}
+</script>
 <html>
