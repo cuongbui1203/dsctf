@@ -6,6 +6,12 @@
 
 
 {% block check %}
-<p>Welcome, {{user.username}}</p>
-<p>Permisssion admin: {{ user.is_superuser }}</p>
+    <p>Welcome, {{ user.username }}</p>
+    <p>Permisssion admin: {{ user.is_superuser }}</p>
 {% endblock check %}
+
+{% block main %}
+    <form method="post" action="">
+
+    </form>
+{% endblock main %}
