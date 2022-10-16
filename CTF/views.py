@@ -21,6 +21,8 @@ def games(request):
     return render(request, 'html/games.html', {
         'foo': 'bar',
     })
+def create_game(request):
+    return render(request, 'html/games.html',{})
 
 
 def login_request(request):
@@ -54,12 +56,13 @@ def register_request(request):
         if form.is_valid():
             username=(form.cleaned_data.get('username'))
             email=(form.cleaned_data.get('email'))
-            password=(form.cleaned_data.get('password'))
-            password2 = (form.cleaned_data.get('password2'))
+            password=(form.cleaned_data.get('password1'))
 
             if User.objects.filter(email=email).first() is None:
                 user = User(email=email, username=username)
+                print(password)
                 user.set_password(password)
+                print(user.password)
                 user.save()
                 messages.info(request, u'The account "%s" has been successfully registered.' % email)
                 return redirect("ctf:login")

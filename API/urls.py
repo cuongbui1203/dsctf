@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from .views import *
+app_name="api"
 urlpatterns = [
-    path('',include('CTF.urls')),
-    path('api/',include('API.urls')),
     path('admin/', admin.site.urls),
+    path('createMath/',createMath)
 ]
-handler404 = 'CTF.views.handler404'
-handler500 = 'CTF.views.handler500'
