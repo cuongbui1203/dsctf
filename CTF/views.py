@@ -15,7 +15,11 @@ def home(request):
     return render(request, 'html/home.html', {
         'foo': 'bar',
     })
-
+def users(request):
+    users = User.objects.all()
+    return render(request, 'html/users.html', {
+        'users': users,
+    })
 
 def games(request):
     return render(request, 'html/games.html', {
@@ -74,8 +78,9 @@ def register_request(request):
 
 
 def scoreboard(request):
+    users = User.objects.order_by('userScore')
     return render(request, 'html/scoreboard.html', {
-        'foo': 'bar',
+        'users': users,
     })
 
 
@@ -86,7 +91,7 @@ def notification(request):
 
 
 def profile(request):
-    return render(request, 'html/user.html', {
+    return render(request, 'html/profile.html', {
         'foo': 'bar',
     })
 

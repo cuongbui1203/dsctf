@@ -38,6 +38,11 @@ height: 100vh;
 
 
                 <ul class="d-flex navbar-nav mb-2 mb-lg-0">
+                    {% if user.is_superuser %}
+                        <li class="nav-item">
+                        <a class="nav-link text-light" aria-current="page" href="/users">Users</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link text-light" aria-current="page" href="/notification">Notification</a>
                     </li>
@@ -52,8 +57,6 @@ height: 100vh;
                             <a class="nav-link text-light" href="/logout">Logout</a>
                         </li>
                     </ul>
-                    {% if user.is_superuser %}
-                    {% endif %}
                 {% else %}
                     <ul class="d-flex navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">

@@ -3,8 +3,11 @@ from pwn import *
 from django.contrib import  messages
 import requests
 
-def createMath(requset):
-    if requset.method == "GET":
+def createMath(request):
+    if request.method == "POST":
+        messages.info(request, request.POST)
+        return redirect("ctf:home")
+    if request.method == "GET":
         try:
             req = remote('112.137.129.129', 27001)
             PKT_HELLO = p32(0) + p32(8) + b"19020235"
@@ -22,7 +25,7 @@ def createMath(requset):
                 if int.from_bytes(result[0:4], "little") == 3:
                     break
                 if int.from_bytes(result[0:4], "little") == 4:
-                    messages.info(requset,result[8:len(result) - 1].decode())
+                    messages.info(request,result[8:len(result) - 1].decode())
                     break
             req.close()
         except:

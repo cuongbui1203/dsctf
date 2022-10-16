@@ -17,15 +17,17 @@ import django.contrib.admin
 from django.contrib import admin
 from django.urls import path
 from . import views
-app_name="ctf"
+
+app_name = "ctf"
 urlpatterns = [
     path('profile/', views.profile, name='profile'),
+    path('users/', views.users, name='users'),
     path('games/', views.games, name='games'),
     path('login/', views.login_request, name='login'),
     path('logout/', views.logout_request, name='logout'),
     path('register/', views.register_request, name='register'),
     path('notification/', views.notification, name='notification'),
     path('scoreboard/', views.scoreboard, name='scoreboard'),
-    path('', views.home,name='home'),
-    path('admin/django', admin.site.urls,name='django'),
+    path('', views.home, name='home'),
+    path('admin/django', admin.site.urls, name='django'),
 ]

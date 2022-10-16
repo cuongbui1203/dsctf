@@ -7,11 +7,34 @@
 
 {% block check %}
     <p>Welcome, {{ user.username }}</p>
-    <p>Permisssion admin: {{ user.is_superuser }}</p>
 {% endblock check %}
 
 {% block main %}
-    <form method="post" action="">
-
+    <form method="POST" action="/api/createMath/">
+        {% csrf_token %}
+        <label>
+            ID user1
+        </label>
+        <input type="text" required name="uid1">
+        <label>
+            ID user2
+        </label>
+        <input type="text" required name="uid2">
+        <label>
+            Key
+        </label>
+        <input type="password" name="key" id="myInput">
+        <input type="checkbox" onclick="myFunction()">Show Password
+        <input type="submit" name="submit" value="submit">
     </form>
 {% endblock main %}
+{% block script %}
+    function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+    x.type = "text";
+    } else {
+    x.type = "password";
+    }
+    }
+{% endblock script %}
