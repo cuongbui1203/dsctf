@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'html/base.html' %}
+
+{% block title %}
+    <title>Game</title>
+{% endblock title %}
+{% block css %}
+    .label {
+    width:100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+{% endblock css %}
+{% block main %}
+    <a href="/games/">Back</a>
+    <form action="/creategame/" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="label">Game IP</label>
+            {{ game_form.gameIP }}
+        </div>
+        <div class="mb-3">
+            <label class="label">Game Port</label>
+            {{ game_form.gamePort }}
+        </div>
+        <div class="mb-3">
+            <label class="label">Game Name</label>
+            {{ game_form.gameName }}
+        </div>
+        <div class="mb-3">
+            <label class="label">Game Rule</label>
+            {{ game_form.gameRule }}
+        </div>
+
+
+        <input type="submit" value="OK"></form>
+
+    </form>
+
+{% endblock main %}

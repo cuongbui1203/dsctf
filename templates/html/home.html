@@ -10,23 +10,42 @@
 {% endblock check %}
 
 {% block main %}
-    <form method="POST" action="/api/createMath/">
+
+    <form method="POST" action="/api/createMatch/">
+        {{ form }}
         {% csrf_token %}
-        <label>
-            ID user1
-        </label>
-        <input type="text" required name="uid1">
-        <label>
-            ID user2
-        </label>
-        <input type="text" required name="uid2">
-        <label>
-            Key
-        </label>
-        <input type="password" name="key" id="myInput">
-        <input type="checkbox" onclick="myFunction()">Show Password
-        <input type="submit" name="submit" value="submit">
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+
+    <br>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">uid1</th>
+            <th scope="col">uid2</th>
+            <th scope="col">status</th>
+        </tr>
+        </thead>
+      {% for match in matchs %}
+            <tr>
+              <td>
+                    {{ match.gameID }}
+                </td>
+                <td>
+                    {{ match.uID1 }}
+                </td>
+                <td>
+                    {{ match.uID2 }}
+                </td>
+                <td>
+                    {{ match.status }}
+                </td>
+            </tr>
+      {% endfor %}
+    </table>
 {% endblock main %}
 {% block script %}
     function myFunction() {

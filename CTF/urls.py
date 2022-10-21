@@ -30,4 +30,7 @@ urlpatterns = [
     path('scoreboard/', views.scoreboard, name='scoreboard'),
     path('', views.home, name='home'),
     path('admin/django', admin.site.urls, name='django'),
+    path(
+        'creategame/', views.create_game, name='creategame'
+    )
 ]

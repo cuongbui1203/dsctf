@@ -3,3 +3,13 @@
 {% block title %}
     <title>Game</title>
 {% endblock title %}
+{% block main %}
+    {% if not user.is_superuser %}
+        <p>you don't have permission to access</p>
+    {% else %}
+        <a href="/creategame/">Create Game</a>
+        <br>
+        {{ games }}
+
+    {% endif %}
+{% endblock main %}

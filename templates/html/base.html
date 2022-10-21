@@ -9,7 +9,10 @@
 
     {# Display django.contrib.messages as Bootstrap alerts #}
     {% bootstrap_messages %}
-
+    <style>
+        {% block css %}
+        {% endblock css %}
+    </style>
     <meta charset="UTF-8">
 </head>
 <body style="
@@ -40,19 +43,21 @@ height: 100vh;
                 <ul class="d-flex navbar-nav mb-2 mb-lg-0">
                     {% if user.is_superuser %}
                         <li class="nav-item">
-                        <a class="nav-link text-light" aria-current="page" href="/users">Users</a>
-                    </li>
+                            <a class="nav-link text-light" aria-current="page" href="/users">Users</a>
+                        </li>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link text-light" aria-current="page" href="/notification">Notification</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-light" href="/profile">Profile</a>
-                    </li>
+
                 </ul>
 
                 {% if user.is_authenticated %}
+
                     <ul class="d-flex navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active text-light" href="/profile">Profile</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" href="/logout">Logout</a>
                         </li>
