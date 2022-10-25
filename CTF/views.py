@@ -1,15 +1,7 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
+
 from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
-from django.http import HttpResponse
-from django.contrib.auth import login, logout, authenticate
-from django.shortcuts import render
-from CTF.forms import *
-import datetime
-from django.template import RequestContext
-from django.http import HttpResponseRedirect
-import numpy as np
+import hashlib
 from API.views import *
 def home(request):
     form = MatchForm()
@@ -55,10 +47,11 @@ def create_game(request):
             gameName = form.cleaned_data.get('gameName')
             gameRule = form.cleaned_data.get('gameRule')
             author = form.cleaned_data.get('author')
+            gameSecretKey= form.cleaned_data.get('gameSecretKey')
             print(gameIP,gamePort,gameName,gameRule,author)
             if Game.objects.filter(gameIP=gameIP, gamePort=gamePort).first() is None:
                 try:
-                    game = Game(gameIP=gameIP, gamePort=gamePort, gameName=gameName, gameRule=gameRule, author=author)
+                    game = Game(gameIP=gameIP, gamePort=gamePort, gameName=gameName, gameRule=gameRule, author=author, gameSecretKey=hashlib.md5(gameSecretKey.encode('utf-8')).hexdigest())
                     print(game)
                     game.save()
                     messages.info(request, f"create successful {gameName} game.")
