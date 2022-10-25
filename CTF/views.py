@@ -9,25 +9,53 @@ from CTF.forms import *
 import datetime
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from API.views import MATCH
 
+from API.views import *
 def home(request):
+    form = MatchForm()
     return render(request, 'html/home.html', {
-        'matchs': range(20),
-        'count':range(4)
+        'y': range(5),
+        'form':form,
+        'matchs': MATCH
     })
+
+
 def users(request):
     users = User.objects.all()
     return render(request, 'html/users.html', {
         'users': users,
     })
 
+
 def games(request):
-    return render(request, 'html/games.html', {
-        'foo': 'bar',
-    })
+    games = Game.objects.all()
+    return render(request, 'html/games.html', {'games': games})
+
+
 def create_game(request):
-    return render(request, 'html/games.html',{})
+    if request.method == "POST":
+        form = GameForm(request.POST)
+        if form.is_valid():
+            gameIP = form.cleaned_data.get('gameIP')
+            gamePort = form.cleaned_data.get('gamePort')
+            gameName = form.cleaned_data.get('gameName')
+            gameRule = form.cleaned_data.get('gameRule')
+            author = form.cleaned_data.get('author')
+            if Game.objects.filter(gameIP=gameIP, gamePort=gamePort).first() is None:
+                try:
+                    game = Game(gameIP=gameIP, gamePort=gamePort, gameName=gameName, gameRule=gameRule, author=author)
+                    print(game)
+                    game.save()
+                    messages.info(request, f"create successful {gameName} game.")
+                except Exception as e:
+                    print(e)
+                    messages.info(request, f"Game {gameName} creation failed.")
+                return redirect("ctf:games")
+            else:
+                messages.error(request,f"{gameIP} already exists")
+
+    form = GameForm()
+    return render(request, 'html/creategame.html', {'game_form': form})
 
 
 def login_request(request):
@@ -52,16 +80,16 @@ def login_request(request):
 def logout_request(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
-    return redirect("ctf:home")
+    return redirect("ctf:login")
 
 
 def register_request(request):
     if request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
-            username=(form.cleaned_data.get('username'))
-            email=(form.cleaned_data.get('email'))
-            password=(form.cleaned_data.get('password1'))
+            username = (form.cleaned_data.get('username'))
+            email = (form.cleaned_data.get('email'))
+            password = (form.cleaned_data.get('password1'))
 
             if User.objects.filter(email=email).first() is None:
                 user = User(email=email, username=username)
@@ -79,7 +107,7 @@ def register_request(request):
 
 
 def scoreboard(request):
-    users = User.objects.order_by('userScore')
+    users = User.objects.order_by('-userScore').all()
     return render(request, 'html/scoreboard.html', {
         'users': users,
     })
