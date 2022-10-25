@@ -9,7 +9,37 @@
     {% else %}
         <a href="/creategame/">Create Game</a>
         <br>
-        {{ games }}
+        <table class="table text-light">
+            <thead>
+            <tr>
+                <th scope="col">Game</th>
+                <th scope="col">ID</th>
+                <th scope="col">IP</th>
+                <th scope="col">PORT</th>
+                <th scope="col">Secret Key</th>
+            </tr>
+            </thead>
+            {% for game in games %}
+                <tr>
+                    <td>
+                        {{ game.gameName }}
+                    </td>
+                    <td>
+                        {{ game.gameID }}
+                    </td>
+                    <td>
+                        {{ game.gameIP }}
+                    </td>
+                    <td>
+                        {{ game.gamePort }}
+                    </td>
 
+                    <td>
+                        {{ game.gameSecretKey }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
+
 {% endblock main %}

@@ -9,14 +9,26 @@ from CTF.forms import *
 import datetime
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-
+import numpy as np
 from API.views import *
 def home(request):
     form = MatchForm()
+    temp=[]
+    matchs =[]
+    # MATCH=[1,2,3,4,5,6,7,8,9,10]
+    for i in range(len(MATCH)+1):
+        try:
+            temp.append(MATCH[i])
+            if len(temp) == 4:
+                matchs.append(temp)
+                temp = []
+        except:
+            matchs.append(temp)
+            break
+
     return render(request, 'html/home.html', {
-        'y': range(5),
-        'form':form,
-        'matchs': MATCH
+        'count': range(5),
+        'matchs': matchs
     })
 
 
@@ -33,14 +45,17 @@ def games(request):
 
 
 def create_game(request):
+    print(0)
     if request.method == "POST":
         form = GameForm(request.POST)
+        print(1)
         if form.is_valid():
             gameIP = form.cleaned_data.get('gameIP')
             gamePort = form.cleaned_data.get('gamePort')
             gameName = form.cleaned_data.get('gameName')
             gameRule = form.cleaned_data.get('gameRule')
             author = form.cleaned_data.get('author')
+            print(gameIP,gamePort,gameName,gameRule,author)
             if Game.objects.filter(gameIP=gameIP, gamePort=gamePort).first() is None:
                 try:
                     game = Game(gameIP=gameIP, gamePort=gamePort, gameName=gameName, gameRule=gameRule, author=author)
@@ -53,7 +68,8 @@ def create_game(request):
                 return redirect("ctf:games")
             else:
                 messages.error(request,f"{gameIP} already exists")
-
+        else:
+            messages.error(request, f"Can't create game!")
     form = GameForm()
     return render(request, 'html/creategame.html', {'game_form': form})
 

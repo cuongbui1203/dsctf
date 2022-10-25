@@ -1,4 +1,6 @@
 {% load  static %}
+{% load crispy_forms_field %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,7 +62,7 @@
 
 <!-- ***** Header Area Start ***** -->
 <header class="header-area header-sticky">
-    <div class="container">
+    <div class="container text-light">
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
@@ -109,7 +111,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <div class="page-content">
+            <div class="page-content  text-light">
                 {% block main %}
                 {% endblock main %}
             </div>
@@ -130,8 +132,15 @@
 <script>
     {% block script %}
     {% endblock script %}
-   //auto remove info message
+    //auto remove info message
     var info_messages = document.getElementsByClassName('alert-info');
+    setTimeout(function () {
+        for (var i = 0; i < info_messages.length; i++) {
+            // Set display attribute as !important, neccessary when using bootstrap
+            info_messages[i].setAttribute('style', 'display:none !important');
+        }
+    }, 3000);
+        var info_messages = document.getElementsByClassName('alert-danger');
     setTimeout(function () {
         for (var i = 0; i < info_messages.length; i++) {
             // Set display attribute as !important, neccessary when using bootstrap

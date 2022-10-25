@@ -18,5 +18,6 @@ from django.urls import include, path
 from .views import *
 app_name="api"
 urlpatterns = [
-    path('createMath/',createMatch)
+    path('createMatch/',createMatch),
+    path('cleanMatch/', cleanMatch)
 ]

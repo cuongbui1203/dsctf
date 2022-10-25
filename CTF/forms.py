@@ -74,10 +74,11 @@ class GameForm(forms.Form):
         "ip_valid": (f'The game IP address "%s" is not valid')
     }
     gameIP = forms.CharField(max_length=20,label='game IP')
-    gamePort = forms.IntegerField()
-    gameName = forms.CharField(max_length=30)
-    gameRule = forms.CharField(max_length=None)
-    author = forms.CharField(max_length=50)
+    gamePort = forms.IntegerField(label='game Port')
+    gameName = forms.CharField(max_length=30, label='game Name')
+    gameRule = forms.CharField(max_length=None, label='game Rule',required=False)
+    author = forms.CharField(max_length=50,label='game Author',required=False)
+    gameSecretKey =forms.CharField(max_length=50,label='Secretkey',required=True)
 
     def clean_gameIP(self, *args, **kwargs):
         gameIP = self.cleaned_data.get("gameIP")

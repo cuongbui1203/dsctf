@@ -7,6 +7,7 @@ from CTF.forms import *
 
 class Match():
     gameIP = ''
+    gameName='Default'
     gameID = ''
     uID1 = ''
     uID2 = ''
@@ -14,7 +15,7 @@ class Match():
     score1 = 0
     score2 = 0
     df_status = ('chưa bắt đầu', 'đang diễn ra', 'kết thúc')
-    status= ''
+    status= 'chưa bắt đầu'
 
     def change_score(self, score1, score2):
         self.score1 = score1
@@ -30,7 +31,9 @@ class Match():
         self.keymath = keymath
 
 
-MATCH = []
+MATCH = [
+
+]
 
 
 def updateMatch():
@@ -71,7 +74,7 @@ def createMatch(request):
     if request.method == "POST":
         error_messages = {
             "ip_valid": (f'The game IP address "%s" is not valid'),
-            "connect_server": (f'Can\'t connect to "%s"'),
+            "connect_server": (f'Could not  connect to "%s" '),
         }
         form = MatchForm(request.POST)
         if form.is_valid():
@@ -91,15 +94,18 @@ def createMatch(request):
                         print(CREATE_MATCH)
                         req.send(CREATE_MATCH)
                         result = req.recv(1024).decode()
-                        if result == 'ok':
+                        if result == Game.objects.filter(ip=ip, port=port).first().gameSecretKey:#secret_key create game.
                             MATCH.append(Match(ip, id, uid1, uid2, keymath))
-                            messages.info(request, "tao van dau thanh cong")
-                        req.close()
+                            messages.info(request, "Create a successful game")
+                        # req.close()
                     except Exception as e:
-                        messages.error(request, error_messages['connect_server'] % ip)
+                        messages.error(request, error_messages['connect_server'] % ip+'on port "%s"'%port)
                         print(e)
             except:
                 messages.error(request, 'none')
         return redirect("ctf:home")
     return redirect("ctf:home")
     # return render(requests, 'html/home.html')
+def cleanMatch(request):
+    MATCH=[]
+    return redirect("ctf:home")

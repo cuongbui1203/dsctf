@@ -9,31 +9,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+    }
 {% endblock css %}
 {% block main %}
+    {% load crispy_forms_tags %}
     <a href="/games/">Back</a>
-    <form action="/creategame/" method="post">
+    <form action="/creategame/" method="POST">
         {% csrf_token %}
-        <div class="mb-3">
-            <label class="label">Game IP</label>
-            {{ game_form.gameIP }}
-        </div>
-        <div class="mb-3">
-            <label class="label">Game Port</label>
-            {{ game_form.gamePort }}
-        </div>
-        <div class="mb-3">
-            <label class="label">Game Name</label>
-            {{ game_form.gameName }}
-        </div>
-        <div class="mb-3">
-            <label class="label">Game Rule</label>
-            {{ game_form.gameRule }}
-        </div>
-
-
-        <input type="submit" value="OK"></form>
+        {{ game_form|crispy|linebreaks }}
+        <input type="submit" value="Create Game"></form>
 
     </form>
 
