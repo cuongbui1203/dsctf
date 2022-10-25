@@ -1,5 +1,7 @@
+{% load  static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     {# Load the tag library #}
     {% load bootstrap5 %}
@@ -11,77 +13,124 @@
     {% bootstrap_messages %}
 
     <meta charset="UTF-8">
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    {% block title %}
+    {% endblock title %}
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="../../static/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="../../static/assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="../../static/assets/css/owl.css">
+    <link rel="stylesheet" href="../../static/assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+    <!--
+
+    TemplateMo 579 Cyborg Gaming
+
+    https://templatemo.com/tm-579-cyborg-gaming
+
+    -->
 </head>
-<body style="
-background-color: #00BFA5;
-height: 100vh;
-">
-<div class="container pos-f-t">
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
-        <div class="container-fluid ">
-            <a class="navbar-brand text-light" href="/"><h1>CSG</h1></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active text-light" aria-current="page" href="/games">Game</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="/scoreboard">Scorebroad</a>
-                    </li>
-                </ul>
+<body>
+
+<!-- ***** Preloader Start ***** -->
+<div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- ***** Preloader End ***** -->
+
+<!-- ***** Header Area Start ***** -->
+<header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="/" class="logo">
+                        <img src="../../static/assets/images/logo.png" alt="">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Search End ***** -->
+                    <div class="search-input">
+                        <form id="search" action="#">
+                            <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword"
+                                   onkeypress="handle"/>
+                            <i class="fa fa-search"></i>
+                        </form>
+                    </div>
+                    <!-- ***** Search End ***** -->
+                    <!-- ***** Menu Start ***** -->
+                    <ul class="nav">
+                        <li><a href="/games" class="active">Game</a></li>
+                        <li><a href="/scoreboard">Scoreboard</a></li>
+                        <li><a href="/notification">Notification</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a href="/users">Users</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                            <li><a href="/profile">Profile <img src="../../static/assets/images/profile-header.jpg"
+                                                                alt=""></a></li>
+                        {% else %}
+                            <li><a href="/register">Register</a></li>
+                            <li><a href="/login">Login</a></li>
+                            <li></li>
+                        {% endif %}
 
 
-                <ul class="d-flex navbar-nav mb-2 mb-lg-0">
-                    {% if user.is_superuser %}
-                        <li class="nav-item">
-                        <a class="nav-link text-light" aria-current="page" href="/users">Users</a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link text-light" aria-current="page" href="/notification">Notification</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active text-light" href="/profile">Profile</a>
-                    </li>
-                </ul>
-
-                {% if user.is_authenticated %}
-                    <ul class="d-flex navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="/logout">Logout</a>
-                        </li>
                     </ul>
-                {% else %}
-                    <ul class="d-flex navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active text-light" aria-current="page" href="/register">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-light" href="/login">Login</a>
-                        </li>
-                    </ul>
-                {% endif %}
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
             </div>
         </div>
-    </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                {% block main %}
+                {% endblock main %}
+            </div>
+        </div>
+    </div>
 </div>
-<div class="container pos-f-t">
-    {% block check %}
-    {% endblock check %}
-    {% block main %}
-    {% endblock main %}
-    {% block content %}
-    {% endblock content %}
-</div>
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="../../static/assets/js/isotope.min.js"></script>
+<script src="../../static/assets/js/owl-carousel.js"></script>
+<script src="../../static/assets/js/tabs.js"></script>
+<script src="../../static/assets/js/popup.js"></script>
+<script src="../../static/assets/js/custom.js"></script>
+
+
 </body>
 <script>
-    //auto remove info message
+    {% block script %}
+    {% endblock script %}
+   //auto remove info message
     var info_messages = document.getElementsByClassName('alert-info');
     setTimeout(function () {
         for (var i = 0; i < info_messages.length; i++) {
@@ -89,7 +138,6 @@ height: 100vh;
             info_messages[i].setAttribute('style', 'display:none !important');
         }
     }, 3000);
-    {% block script %}
-    {% endblock script %}
 </script>
-<html>
+
+</html>

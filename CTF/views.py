@@ -9,11 +9,12 @@ from CTF.forms import *
 import datetime
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-
+from API.views import MATCH
 
 def home(request):
     return render(request, 'html/home.html', {
-        'foo': 'bar',
+        'matchs': range(20),
+        'count':range(4)
     })
 def users(request):
     users = User.objects.all()
